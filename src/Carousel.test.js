@@ -2,12 +2,9 @@ import { render, fireEvent } from "@testing-library/react";
 import Carousel from "./Carousel";
 import TEST_IMAGES from "./_testCommon.js";
 
-it("works when you click on the right arrow", function() {
+it("works when you click on the right arrow", function () {
   const { container } = render(
-    <Carousel
-      photos={TEST_IMAGES}
-      title="images for testing"
-    />
+    <Carousel photos={TEST_IMAGES} title="images for testing" />
   );
   // expect the first image to show, but not the second
   expect(
@@ -29,3 +26,29 @@ it("works when you click on the right arrow", function() {
     container.querySelector('img[alt="testing image 2"]')
   ).toBeInTheDocument();
 });
+
+it("works when you click on the left arrow", function () {
+  // move forward in the carousel
+  const rightArrow = container.querySelector(".bi-arrow-right-circle");
+  fireEvent.click(rightArrow);
+  // move backward in the carousel
+  const leftArrow = container.querySelector(".bi-arrow-left-circle");
+  fireEvent.click(leftArrow);
+
+  // expect the first image to show, but not the second
+  expect(
+    container.querySelector('img[alt="testing image 2"]')
+  ).toBeInTheDocument();
+  expect(
+    container.querySelector('img[alt="testing image 1"]')
+  ).not.toBeInTheDocument();
+});
+
+// it("renders without crashing", function () {
+//   render(<Carousel />);
+// });
+
+// it("matches snapshot", function () {
+//   const { asFragment } = render(<Carousel />);
+//   expect(asFragment()).toMatchSnapshot();
+// });
